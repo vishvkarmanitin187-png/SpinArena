@@ -1,0 +1,6 @@
+{
+  "name": "GameZone 3D",
+  "description": "Mobile-first 3D gaming platform with 30 unique arcade, racing, sports, puzzle, and adventure games using virtual coins and XP.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
