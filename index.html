@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GameZone 3D - SpinArena</title>
+    <!-- Tailwind CSS CDN for modern mobile-first design -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-slate-950 text-white font-sans select-none pb-24">
+
+    <!-- Top Profile & Wallet Bar -->
+    <header class="sticky top-0 z-40 bg-slate-900/90 backdrop-blur-md border-b border-slate-800 px-4 py-3">
+        <div class="max-w-md mx-auto flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-indigo-500 to-pink-500 p-0.5">
+                    <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=120&h=120&q=80" alt="Avatar" class="w-full h-full object-cover rounded-full">
+                </div>
+                <div>
+                    <h2 class="text-sm font-bold flex items-center gap-1">ProGamer <span class="text-[10px] bg-amber-500/20 text-amber-400 px-1.5 py-0.5 rounded-full border border-amber-500/30">VIP 4</span></h2>
+                    <p class="text-xs text-slate-400">ID: 849201</p>
+                </div>
+            </div>
+            <div class="flex items-center space-x-2">
+                <button onclick="openWallet()" class="flex items-center space-x-1.5 bg-slate-800 border border-slate-700 px-3 py-1.5 rounded-xl active:scale-95 transition-transform">
+                    <span class="text-emerald-400 font-bold">₹</span>
+                    <span id="userBalance" class="text-sm font-bold text-emerald-400">0.72</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Lobby Content -->
+    <main class="max-w-md mx-auto px-4 pt-4 space-y-4">
+        
+        <!-- Live Jackpot Lotto -->
+        <div class="bg-gradient-to-r from-emerald-900/80 via-slate-900 to-slate-900 border border-emerald-500/40 rounded-2xl p-4 shadow-xl">
+            <div class="flex justify-between items-start mb-1">
+                <span class="text-[10px] font-bold text-emerald-400 uppercase tracking-wider">Jackpot Lotto Live</span>
+                <span class="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded-full border border-slate-700">Draw in: 04:04:15</span>
+            </div>
+            <h2 class="text-2xl font-black text-amber-400 mb-2">₹1,128,961</h2>
+            <div class="flex justify-between items-center">
+                <p class="text-[11px] text-slate-400">My Lotto Tickets: <strong class="text-white">10/100</strong></p>
+                <button class="bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs px-3 py-1.5 rounded-xl shadow-lg">View Jackpot</button>
+            </div>
+        </div>
+
+        <!-- First Deposit Bonus Banner -->
+        <div class="bg-gradient-to-r from-amber-600 via-orange-500 to-yellow-500 rounded-2xl p-4 shadow-xl border border-amber-400/40">
+            <div class="inline-flex items-center gap-1 bg-black/30 px-2.5 py-0.5 rounded-full text-[10px] font-bold text-amber-300 mb-2">WELCOME OFFER</div>
+            <h3 class="text-lg font-black text-white leading-tight mb-1">FIRST DEPOSIT BONUS</h3>
+            <p class="text-xs text-amber-100 font-medium mb-3">Get 50% extra bonus up to ₹100 on your first top-up!</p>
+            <button onclick="openWallet()" class="bg-slate-950 text-amber-400 font-bold text-xs px-4 py-2 rounded-xl shadow-lg">DEPOSIT NOW</button>
+        </div>
+
+        <!-- Fast Sign-in Bonus -->
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 flex items-center justify-between shadow-lg">
+            <div>
+                <h4 class="text-sm font-bold text-white">Fast Sign-in Bonus</h4>
+                <p id="signInText" class="text-xs text-slate-400">Claim ₹2 to ₹90 instantly!</p>
+            </div>
+            <button id="signInBtn" onclick="claimSignInBonus()" class="px-4 py-2 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-xl text-xs font-bold text-white active:scale-95 transition-transform">Claim Now</button>
+        </div>
+
+        <!-- Redeem Promo Code Section -->
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-lg space-y-2">
+            <h4 class="text-sm font-bold text-white">Redeem Promo Code</h4>
+            <div id="redeemMsg" class="text-xs hidden p-2 rounded-xl"></div>
+            <div class="flex gap-2">
+                <input type="text" id="promoInput" placeholder="Enter code (e.g. WELCOME50)" class="flex-1 bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500 uppercase">
+                <button onclick="redeemCode()" class="bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-bold text-xs px-4 py-2 rounded-xl">Redeem</button>
+            </div>
+        </div>
+
+        <!-- Search Bar -->
+        <div class="relative">
+            <input type="text" placeholder="Enter the game name here..." class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500">
+        </div>
+
+        <!-- Games Grid -->
+        <div class="space-y-3">
+            <h3 class="text-sm font-bold text-slate-200">Hot Games & Slots</h3>
+            <div class="grid grid-cols-3 gap-2.5">
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-3 flex flex-col items-center text-center">
+                    <div class="w-12 h-12 rounded-xl bg-slate-800 flex items-center justify-center text-2xl my-2">💎</div>
+                    <h4 class="text-xs font-bold text-white">Gems Fortune</h4>
+                    <p class="text-[10px] text-emerald-400 mt-0.5">₹1,596,224</p>
+                </div>
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-3 flex flex-col items-center text-center">
+                    <div class="w-12 h-12 rounded-xl bg-slate-800 flex items-center justify-center text-2xl my-2">🏹</div>
+                    <h4 class="text-xs font-bold text-white">Archer II</h4>
+                    <p class="text-[10px] text-emerald-400 mt-0.5">₹884,191</p>
+                </div>
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-3 flex flex-col items-center text-center">
+                    <div class="w-12 h-12 rounded-xl bg-slate-800 flex items-center justify-center text-2xl my-2">🐒</div>
+                    <h4 class="text-xs font-bold text-white">Jungle Delight</h4>
+                    <p class="text-[10px] text-emerald-400 mt-0.5">₹542,100</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Wallet Modal (Hidden by default) -->
+    <div id="walletModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-slate-800 w-full max-w-sm rounded-2xl p-5 shadow-2xl relative">
+            <button onclick="closeWallet()" class="absolute top-4 right-4 text-slate-400 hover:text-white">✕</button>
+            <h3 class="text-lg font-bold text-white mb-4">Deposit & UPI Transfer</h3>
+            
+            <div class="bg-slate-950 p-3 rounded-xl mb-4 border border-slate-800">
+                <p class="text-xs text-slate-400">Target UPI ID for Transfer</p>
+                <p class="text-sm font-bold text-indigo-400">8819920722@naviaxis</p>
+            </div>
+
+            <div class="space-y-3">
+                <label class="text-xs text-slate-400 block">Enter Deposit Amount (₹)</label>
+                <input type="number" id="depositAmount" placeholder="e.g. 500" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2.5 text-white text-sm">
+                <button onclick="makeDeposit()" class="w-full py-3 bg-emerald-600 rounded-xl font-bold text-sm text-white">Confirm Deposit</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="fixed bottom-0 left-0 right-0 z-40 bg-slate-900/90 backdrop-blur-lg border-t border-slate-800 px-2 py-2">
+        <div class="max-w-md mx-auto flex justify-around items-center text-slate-400">
+            <button class="flex flex-col items-center text-indigo-400"><span class="text-xs font-medium">Home</span></button>
+            <button class="flex flex-col items-center"><span class="text-xs font-medium">Games</span></button>
+            <button class="flex flex-col items-center"><span class="text-xs font-medium">Missions</span></button>
+            <button class="flex flex-col items-center"><span class="text-xs font-medium">Ranks</span></button>
+            <button class="flex flex-col items-center"><span class="text-xs font-medium">Profile</span></button>
+        </div>
+    </nav>
+
+    <script src="script.js"></script>
+</body>
+</html>
