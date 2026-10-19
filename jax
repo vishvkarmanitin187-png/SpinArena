@@ -1,0 +1,121 @@
+import React, { useState } from 'react';
+
+export default function GamingApp() {
+  const [activeTab, setActiveTab] = useState('home');
+  const [walletBalance, setWalletBalance] = useState(0.72);
+  const [amount, setAmount] = useState('');
+  const [message, setMessage] = useState('');
+
+  // Naye Games ki List (Purane games hata diye gaye hain)
+  const gamesList = [
+    { id: 1, title: 'Gems Fortune', category: 'Slots', image: '💎' },
+    { id: 2, title: 'Jackpot Lotto', category: 'Jackpot', image: '🎰' },
+    { id: 3, title: '3D Car Racing', category: 'Racing', image: '🏎️' },
+    { id: 4, title: 'Power of Kraken', category: 'Slots', image: '🐙' }
+  ];
+
+  const handleTransaction = () => {
+    const num = parseFloat(amount);
+    if (!num || num <= 0) {
+      setMessage('Please enter a valid amount.');
+      return;
+    }
+
+    if (activeTab === 'deposit') {
+      setWalletBalance(prev => prev + num);
+      setMessage(`Successfully Deposited ₹${num}`);
+    } else if (activeTab === 'withdraw') {
+      if (num > walletBalance) {
+        setMessage('Insufficient balance for withdrawal.');
+      } else {
+        setWalletBalance(prev => prev - num);
+        setMessage(`Successfully Withdrawn ₹${num}`);
+      }
+    }
+    setAmount('');
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-950 text-white p-4 max-w-md mx-auto font-sans">
+      {/* Header */}
+      <div className="flex justify-between items-center mb-6 bg-gray-900 p-3 rounded-xl border border-gray-800">
+        <div className="flex items-center space-x-2">
+          <span className="text-xl font-bold text-amber-400">NK Pockets</span>
+        </div>
+        <div className="bg-amber-500/10 border border-amber-500/30 px-3 py-1 rounded-full text-amber-400 font-bold">
+          ₹ {walletBalance.toFixed(2)}
+        </div>
+      </div>
+
+      {/* Tabs */}
+      <div className="flex space-x-2 mb-6">
+        <button 
+          onClick={() => { setActiveTab('home'); setMessage(''); }}
+          className={`flex-1 py-2 rounded-lg font-bold ${activeTab === 'home' ? 'bg-amber-500 text-gray-950' : 'bg-gray-900 text-gray-400'}`}
+        >
+          Games
+        </button>
+        <button 
+          onClick={() => { setActiveTab('deposit'); setMessage(''); }}
+          className={`flex-1 py-2 rounded-lg font-bold ${activeTab === 'deposit' ? 'bg-amber-500 text-gray-950' : 'bg-gray-900 text-gray-400'}`}
+        >
+          Deposit
+        </button>
+        <button 
+          onClick={() => { setActiveTab('withdraw'); setMessage(''); }}
+          className={`flex-1 py-2 rounded-lg font-bold ${activeTab === 'withdraw' ? 'bg-purple-600 text-white' : 'bg-gray-900 text-gray-400'}`}
+        >
+          Withdraw
+        </button>
+      </div>
+
+      {/* Content Area */}
+      {activeTab === 'home' && (
+        <div>
+          <h2 className="text-lg font-bold mb-4 text-amber-400">Popular Games</h2>
+          <div className="grid grid-cols-2 gap-3">
+            {gamesList.map((game) => (
+              <div key={game.id} className="bg-gray-900 border border-gray-800 p-4 rounded-xl flex flex-col items-center justify-center text-center">
+                <span className="text-4xl mb-2">{game.image}</span>
+                <h3 className="font-semibold text-sm">{game.title}</h3>
+                <span className="text-xs text-gray-400 mb-3">{game.category}</span>
+                <button className="bg-amber-500 text-gray-950 px-4 py-1 rounded-full text-xs font-bold hover:bg-amber-400">
+                  Play
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {(activeTab === 'deposit' || activeTab === 'withdraw') && (
+        <div className="bg-gray-900 border border-gray-800 p-4 rounded-2xl">
+          <h2 className="text-lg font-bold mb-4 capitalize">{activeTab} Money</h2>
+          <div className="mb-4">
+            <label className="block text-xs font-semibold text-gray-400 mb-2">Enter Amount (₹)</label>
+            <input 
+              type="number"
+              value={amount}
+              onChange={(e) => setAmount(e.target.value)}
+              placeholder="e.g. 500"
+              className="w-full bg-gray-950 border border-gray-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-amber-500 font-bold"
+            />
+          </div>
+
+          {message && (
+            <p className={`text-xs font-semibold mb-3 ${message.includes('Successfully') ? 'text-emerald-400' : 'text-rose-400'}`}>
+              {message}
+            </p>
+          )}
+
+          <button 
+            onClick={handleTransaction}
+            className={`w-full py-3 rounded-xl font-extrabold text-base transition ${activeTab === 'deposit' ? 'bg-amber-500 hover:bg-amber-400 text-gray-950' : 'bg-purple-600 hover:bg-purple-500 text-white'}`}
+          >
+            Confirm {activeTab === 'deposit' ? 'Deposit' : 'Withdrawal'}
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
